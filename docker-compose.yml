@@ -1,0 +1,25 @@
+version: '3.6'
+
+services:
+  restaurant-db:
+    container_name: restaurant.db.local
+    image: postgres:12-alpine
+    env_file: ./.env/db
+    ports:
+      - 5432:5432
+    logging:
+      options:
+        max-size: "100000m"
+        max-file: "100000"
+
+  restaurant-be:
+    container_name: restaurant.be.local
+    build: .
+    env_file: ./.env/restaurant
+    ports:
+      - 9000:9000
+      - 5007:5005
+    volumes:
+      - ~/.m2:/home/${DOCKER_USER:-friday}/.m2:delegated
+    depends_on:
+      - restaurant-db

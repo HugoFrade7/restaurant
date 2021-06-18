@@ -1,0 +1,1 @@
+DATASOURCE_URL="jdbc:postgresql://restaurant.db.local:5432/restaurant"
