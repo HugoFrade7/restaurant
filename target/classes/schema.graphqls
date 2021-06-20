@@ -1,0 +1,77 @@
+scalar DateTime
+
+enum City {
+    AVEIRO
+    PORTO
+    LISBOA
+}
+
+enum DishType {
+    CHINESE
+    ITALIAN
+    MEXICAN
+    JAPANESE
+    SEAFOOD
+}
+
+type Restaurant {
+    id: ID!
+    name: String!
+    location: City!
+    dishes: [Dish]
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+type Dish {
+    id: ID!
+    restaurant: Restaurant!
+    name: String!
+    type: DishType!
+    cost: Float!
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+input CreateRestaurantInput {
+    name: String!
+    location: City!
+}
+
+input RestaurantFilterInput {
+    id: ID
+    name: String
+    location: City
+}
+
+input CreateDishInput {
+    name: String!
+    type: DishType!
+    cost: Float!
+    restaurantId: ID!
+}
+
+input DishFilterInput {
+    id: ID
+    name: String
+    type: DishType
+    cost: Float
+    restaurantId: ID
+}
+
+input DeleteEntityInput {
+    id: ID!
+}
+
+type Mutation {
+    createRestaurant(input: CreateRestaurantInput!): Restaurant!
+    createDish(input: CreateDishInput!): Dish!
+
+    deleteRestaurant(input: DeleteEntityInput!): Restaurant
+    deleteDish(input: DeleteEntityInput!): Dish
+}
+
+type Query {
+    listRestaurants(input: RestaurantFilterInput, limit: Int, offset: Int): [Restaurant]!
+    listDishes(input: DishFilterInput, limit: Int, offset: Int): [Dish]!
+}
