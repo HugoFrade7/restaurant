@@ -2,5 +2,6 @@
 /amplify/
 /provision/.terraform/
 /provision/keys/
+/provision/terraform.tfstate*
 /provision/.terraform.*
 /target/
