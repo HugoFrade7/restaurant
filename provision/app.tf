@@ -66,7 +66,7 @@ module "ecs-fargate" {
 
   cluster_id = aws_ecs_cluster.restaurant_ecs_cluster.id
 
-  task_container_image   = "942112512222.dkr.ecr.eu-central-1.amazonaws.com/restaurant-backend:${var.backend_image_tag}"
+  task_container_image   = var.backend_image
   task_definition_cpu    = 256
   task_definition_memory = 1024
 

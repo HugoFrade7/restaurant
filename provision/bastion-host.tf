@@ -37,7 +37,7 @@ module "ec2-instance" {
   instance_type = "t2.micro"
   name          = "restaurant-bastion"
 
-  key_name               = "eu-central-1-restaurant"
+  key_name               = var.bastion_key_pair_name
   vpc_security_group_ids = [aws_security_group.bastion_sg.id]
   subnet_id              = module.vpc.public_subnets[0]
 

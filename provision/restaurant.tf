@@ -18,13 +18,17 @@ variable "db_password" {
   type    = string
 }
 
-variable "backend_image_tag" {
+variable "backend_image" {
   default = "latest"
   type    = string
 }
 
 variable "allow_cidrs" {
   type = list(string)
+}
+
+variable "bastion_key_pair_name" {
+  type    = string
 }
 
 terraform {
