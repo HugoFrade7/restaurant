@@ -15,8 +15,8 @@ resource "aws_security_group" "bastion_sg" {
     from_port   = 22
     protocol    = "tcp"
     to_port     = 22
-    cidr_blocks = ["148.63.196.120/32"]
-    description = "allow hugo to ssh"
+    cidr_blocks = var.allow_cidrs
+    description = "allow ssh to cidr blocks"
   }
 
   egress {

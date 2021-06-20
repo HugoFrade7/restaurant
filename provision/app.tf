@@ -31,8 +31,9 @@ module "security_group" {
   security_group_id = module.alb.security_group_id
   create_sg         = false
 
-  ingress_cidr_blocks   = ["0.0.0.0/0"]
-  ingress_rules = ["http-80-tcp", "all-icmp"]
+  #ingress_cidr_blocks = ["0.0.0.0/0"]
+  ingress_cidr_blocks = var.allow_cidrs
+  ingress_rules       = ["http-80-tcp", "all-icmp"]
 
 }
 
@@ -65,7 +66,7 @@ module "ecs-fargate" {
 
   cluster_id = aws_ecs_cluster.restaurant_ecs_cluster.id
 
-  task_container_image   = "942112512222.dkr.ecr.eu-central-1.amazonaws.com/restaurant-backend:latest"
+  task_container_image   = "942112512222.dkr.ecr.eu-central-1.amazonaws.com/restaurant-backend:${var.backend_image_tag}"
   task_definition_cpu    = 256
   task_definition_memory = 1024
 
@@ -85,8 +86,9 @@ module "ecs-fargate" {
   }
 
   task_container_environment = {
-    DATASOURCE_URL="jdbc:postgresql://restaurant-db.czithxfsjhgh.eu-central-1.rds.amazonaws.com:5432/restaurant"
-    DATASOURCE_PASSWORD="1234-abcd"
+    DATASOURCE_URL      = "jdbc:postgresql://${module.rds.db_instance_endpoint}/${var.db_name}"
+    DATASOURCE_PASSWORD = var.db_password
+    DATASOURCE_USERNAME = var.db_username
   }
   depends_on = [module.alb, module.rds]
 

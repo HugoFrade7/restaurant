@@ -24,7 +24,7 @@ module "rds" {
   source  = "terraform-aws-modules/rds/aws"
   version = "~> 3.0"
 
-  identifier = "restaurant-db"
+  identifier = "${var.db_name}-db"
 
   publicly_accessible    = false
   subnet_ids             = tolist(module.vpc.private_subnets)
@@ -38,9 +38,9 @@ module "rds" {
   port           = "5432"
 
   # credentials
-  username = "restaurant"
-  password = "1234-abcd"
-  name     = "restaurant"
+  username = var.db_username
+  password = var.db_password
+  name     = var.db_name
 
   create_db_option_group    = false
   create_db_parameter_group = false
