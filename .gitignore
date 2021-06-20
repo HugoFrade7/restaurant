@@ -2,6 +2,5 @@
 /amplify/
 /provision/.terraform/
 /provision/keys/
-/provision/terraform.tfstate*
-/provision/.terraform.lock.hcl
+/provision/.terraform.*
 /target/
