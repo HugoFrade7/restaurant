@@ -1,0 +1,221 @@
+{
+	"info": {
+		"_postman_id": "b18e8c63-0043-4e17-8bb8-cb0f8393f901",
+		"name": "restaurant",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "healthcheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}actuator/health",
+					"host": [
+						"{{baseUrl}}actuator"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list-restaurants",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query ListRestaurants($input: RestaurantFilterInput, $limit: Int, $offset: Int){\n    listRestaurants(input:$input limit: $limit, offset: $offset) {\n        __typename\n        id\n        name\n        location\n        createdAt\n        updatedAt\n        dishes {\n            __typename\n            id\n            name\n            type\n        }\n  }\n}",
+						"variables": "{\n    \"input\": {\n    },\n    \"limit\": 10,\n    \"offset\": null\n}"
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}graphql",
+					"host": [
+						"{{baseUrl}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-restaurant-1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const restaurant1Id = pm.response.json().data.createRestaurant.id;",
+							"pm.environment.set(\"restaurant1Id\", restaurant1Id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation CreateRestaurant($input: CreateRestaurantInput!) {\n  createRestaurant(input: $input) {\n    id\n    name\n    location\n    createdAt\n    updatedAt\n    dishes {\n      id\n      __typename\n      name\n      type\n    }\n    __typename\n  }\n}",
+						"variables": "{\n    \"input\": {\n        \"name\": \"restaurant-1\",\n        \"location\": \"AVEIRO\"\n    }\n}"
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}graphql",
+					"host": [
+						"{{baseUrl}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-restaurant-2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const restaurant2Id = pm.response.json().data.createRestaurant.id;",
+							"pm.environment.set(\"restaurant2Id\", restaurant2Id);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation CreateRestaurant($input: CreateRestaurantInput!) {\n  createRestaurant(input: $input) {\n    id\n    name\n    location\n    createdAt\n    updatedAt\n    dishes {\n      id\n      __typename\n      name\n      type\n    }\n    __typename\n  }\n}",
+						"variables": "{\n    \"input\": {\n        \"name\": \"restaurant-2\",\n        \"location\": \"PORTO\"\n    }\n}"
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}graphql",
+					"host": [
+						"{{baseUrl}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-dish-restaurant-1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const restaurant2Id = pm.response.json().data.createRestaurant.id;",
+							"pm.environment.set(\"restaurant2Id\", restaurant1Id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation CreateDish($input: CreateDishInput!) {\n  createDish(input: $input) {\n    id\n    name\n    type\n    cost\n    restaurant {\n      id\n      name\n      location\n    }\n  }\n}",
+						"variables": "{\n    \"input\": {\n        \"name\": \"dish-1\",\n        \"type\": \"MEXICAN\",\n        \"cost\": 20.0,\n        \"restaurantId\": \"{{restaurant1Id}}\"\n    }\n}"
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}graphql",
+					"host": [
+						"{{baseUrl}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-dish-restaurant-2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const restaurant2Id = pm.response.json().data.createRestaurant.id;",
+							"pm.environment.set(\"restaurant2Id\", restaurant1Id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation CreateDish($input: CreateDishInput!) {\n  createDish(input:$input) {\n    id\n    name\n    type\n    cost\n    restaurant {\n      id\n      name\n      location\n    }\n  }\n}",
+						"variables": "{\n    \"input\": {\n        \"name\": \"dish-2\",\n        \"type\": \"CHINESE\",\n        \"cost\": 20.00,\n        \"restaurantId\": \"{{restaurant2Id}}\"\n    }\n}"
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}graphql",
+					"host": [
+						"{{baseUrl}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-restaurant-1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const restaurant2Id = pm.response.json().data.createRestaurant.id;",
+							"pm.environment.set(\"restaurant2Id\", restaurant1Id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation DeleteRestaurant($input: DeleteEntityInput! ) {\n  deleteRestaurant(input: $input) {\n    id\n    name\n    location\n    createdAt\n    updatedAt\n    dishes {\n      id\n      __typename\n      name\n      type\n    }\n    __typename\n  }\n}",
+						"variables": "{\n    \"input\": {\n        \"id\": \"{{restaurant1Id}}\"\n    }\n}"
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}graphql",
+					"host": [
+						"{{baseUrl}}graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
