@@ -40,14 +40,13 @@ Steps described below assume deployment on AWS eu-central-1 region.
 
 `docker push <aws_account_id>.dkr.ecr.eu-central-1.amazonaws.com/restaurant-backend:latest`
     
-6. Change variable values on `restaurant.auto.tfvars` accordingly
+6. Change variable values on `terraform.tfvars` accordingly
 
 
 7. Deploy
 
 ```
 cd provision
-terraform get
 terraform init
 terraform apply --auto-approve
 ```
