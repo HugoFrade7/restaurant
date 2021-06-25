@@ -19,7 +19,6 @@ variable "db_password" {
 }
 
 variable "backend_image" {
-  default = "latest"
   type    = string
 }
 
